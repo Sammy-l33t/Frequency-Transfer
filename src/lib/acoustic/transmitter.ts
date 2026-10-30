@@ -35,9 +35,9 @@ export class AcousticTransmitter {
   private sampleRate: number = 48000;
   private packets: AcousticPacket[] = [];
   private options: TransmitterOptions = {
-    protocolId: 1, // AUDIBLE_FAST
-    volume: 60,
-    interPacketDelayMs: 350,
+    protocolId: 5, // ULTRASOUND_FASTEST (near-silent, ultra-fast 15.0 - 19.5 kHz)
+    volume: 65,
+    interPacketDelayMs: 100,
     loopTransmission: false,
   };
 
@@ -143,10 +143,11 @@ export class AcousticTransmitter {
     const now = this.audioCtx.currentTime;
 
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(800, now);
-    osc.frequency.exponentialRampToValueAtTime(1800, now + 0.15);
+    // Smooth ultrasonic pulse (15.5 kHz – 18.5 kHz) - tests ultrasound transducer without loud piercing beep
+    osc.frequency.setValueAtTime(15500, now);
+    osc.frequency.exponentialRampToValueAtTime(18500, now + 0.15);
 
-    gain.gain.setValueAtTime((this.options.volume / 100) * 0.4, now);
+    gain.gain.setValueAtTime((this.options.volume / 100) * 0.3, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
 
     osc.connect(gain);
@@ -189,7 +190,7 @@ export class AcousticTransmitter {
           // Restart loop
           this.repeatCycle++;
           this.currentPacketIndex = 0;
-          await new Promise((r) => setTimeout(r, 600)); // Pause between loop repetitions
+          await new Promise((r) => setTimeout(r, 250)); // Short pause between loop repetitions
           continue;
         } else {
           // Done

@@ -21,14 +21,50 @@ export type {
 // Supported protocols with detailed metadata
 export const PROTOCOLS: ProtocolOption[] = [
   {
+    id: 'ULTRASOUND_FASTEST',
+    numericId: 5,
+    name: 'Ultrasound Fastest',
+    category: 'ultrasound',
+    frequency: '15.0 – 19.5 kHz',
+    speed: '~1.2 sec/packet',
+    description: 'Ultra-fast & near-silent. Inaudible frequencies with minimal noise.',
+    recommended: true,
+  },
+  {
+    id: 'ULTRASOUND_FAST',
+    numericId: 4,
+    name: 'Ultrasound Fast',
+    category: 'ultrasound',
+    frequency: '15.0 – 19.5 kHz',
+    speed: '~1.8 sec/packet',
+    description: 'Near-silent ultrasound with high noise immunity.',
+  },
+  {
+    id: 'ULTRASOUND_NORMAL',
+    numericId: 3,
+    name: 'Ultrasound Normal',
+    category: 'ultrasound',
+    frequency: '15.0 – 19.5 kHz',
+    speed: '~2.8 sec/packet',
+    description: 'Silent ultrasound transmission with high redundancy.',
+  },
+  {
+    id: 'AUDIBLE_FASTEST',
+    numericId: 2,
+    name: 'Audible Fastest',
+    category: 'audible',
+    frequency: '1.9 – 6.4 kHz',
+    speed: '~1.2 sec/packet',
+    description: 'High-speed audio transmission. Best in quiet environments.',
+  },
+  {
     id: 'AUDIBLE_FAST',
     numericId: 1,
     name: 'Audible Fast',
     category: 'audible',
     frequency: '1.9 – 6.4 kHz',
-    speed: '~1.2 sec/packet',
+    speed: '~2.0 sec/packet',
     description: 'Fast acoustic chirps. Highly reliable across room distances.',
-    recommended: true,
   },
   {
     id: 'AUDIBLE_NORMAL',
@@ -38,33 +74,6 @@ export const PROTOCOLS: ProtocolOption[] = [
     frequency: '1.9 – 6.4 kHz',
     speed: '~2.8 sec/packet',
     description: 'Maximum error correction and noise resistance.',
-  },
-  {
-    id: 'AUDIBLE_FASTEST',
-    numericId: 2,
-    name: 'Audible Fastest',
-    category: 'audible',
-    frequency: '1.9 – 6.4 kHz',
-    speed: '~0.7 sec/packet',
-    description: 'High-speed audio transmission. Best in quiet environments.',
-  },
-  {
-    id: 'ULTRASOUND_FAST',
-    numericId: 4,
-    name: 'Ultrasound Fast',
-    category: 'ultrasound',
-    frequency: '15.0 – 19.5 kHz',
-    speed: '~1.5 sec/packet',
-    description: 'Near-silent to human ears. Covert acoustic data transfer.',
-  },
-  {
-    id: 'ULTRASOUND_NORMAL',
-    numericId: 3,
-    name: 'Ultrasound Normal',
-    category: 'ultrasound',
-    frequency: '15.0 – 19.5 kHz',
-    speed: '~3.2 sec/packet',
-    description: 'Silent ultrasound transmission with high redundancy.',
   },
   {
     id: 'DT_FAST',
@@ -203,7 +212,7 @@ export function prepareFilePackets(
   fileName: string,
   mimeType: string,
   data: Uint8Array,
-  chunkSize: number = 64
+  chunkSize: number = 84
 ): { header: FileHeaderPacket; chunks: ChunkPacket[]; allPackets: AcousticPacket[] } {
   const checksum = crc32(data);
   const totalChunks = Math.max(1, Math.ceil(data.length / chunkSize));

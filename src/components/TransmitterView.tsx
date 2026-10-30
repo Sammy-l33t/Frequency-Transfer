@@ -44,10 +44,10 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
 
   const [activeTab, setActiveTab] = useState<'file' | 'text' | 'preset'>('file');
   const [textMessage, setTextMessage] = useState<string>('Hello from SonicDrop! Air-gapped file transfer via sound waves.');
-  const [selectedProtocolId, setSelectedProtocolId] = useState<number>(1); // AUDIBLE_FAST
-  const [chunkSize, setChunkSize] = useState<number>(64);
-  const [volume, setVolume] = useState<number>(65);
-  const [interPacketDelayMs, setInterPacketDelayMs] = useState<number>(350);
+  const [selectedProtocolId, setSelectedProtocolId] = useState<number>(5); // ULTRASOUND_FASTEST (near-silent & fast)
+  const [chunkSize, setChunkSize] = useState<number>(84);
+  const [volume, setVolume] = useState<number>(75);
+  const [interPacketDelayMs, setInterPacketDelayMs] = useState<number>(100);
   const [loopTransmission, setLoopTransmission] = useState<boolean>(true);
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
@@ -121,8 +121,22 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
     let mime: string;
 
     if (activeTab === 'text') {
-      if (!textMessage.trim()) return;
-      fileData = new TextEncoder().encode(textMessage.trim());
+      const trimmed = textMessage.trim();
+      if (!trimmed) return;
+
+      // Ultra-fast single packet burst for messages up to 110 characters
+      if (trimmed.length <= 110) {
+        const quickPkt: AcousticPacket = {
+          type: 'T',
+          fileId: generateTransferId(),
+          text: trimmed,
+          timestamp: Date.now(),
+        };
+        await transmitter.startTransmission([quickPkt]);
+        return;
+      }
+
+      fileData = new TextEncoder().encode(trimmed);
       fileName = 'message.txt';
       mime = 'text/plain';
     } else {
@@ -155,11 +169,12 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
   // Calculate packet estimation
   let estimatedTotalPackets = 0;
   if (activeTab === 'text') {
-    const bytes = new TextEncoder().encode(textMessage).length;
-    estimatedTotalPackets = 1 + Math.max(1, Math.ceil(bytes / chunkSize));
+    const bytes = new TextEncoder().encode(textMessage.trim()).length;
+    estimatedTotalPackets = bytes <= 110 ? 1 : 1 + Math.max(1, Math.ceil(bytes / chunkSize));
   } else if (selectedFile) {
     estimatedTotalPackets = 1 + Math.max(1, Math.ceil(selectedFile.size / chunkSize));
   }
+  const estimatedSeconds = Math.max(1.2, Number((estimatedTotalPackets * 1.3).toFixed(1)));
 
   const percent =
     progress.totalPackets > 0
@@ -294,9 +309,11 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
               className="w-full bg-[#060a14] border border-slate-700/80 rounded-xl p-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono resize-none"
             />
             <div className="flex justify-between items-center text-xs text-slate-400">
-              <span>{new TextEncoder().encode(textMessage).length} bytes</span>
-              <span>
-                {1 + Math.max(1, Math.ceil(new TextEncoder().encode(textMessage).length / chunkSize))} audio packets
+              <span>{new TextEncoder().encode(textMessage.trim()).length} bytes</span>
+              <span className="text-cyan-400 font-medium">
+                {new TextEncoder().encode(textMessage.trim()).length <= 110
+                  ? '⚡ 1 burst packet (instant ~1.2s)'
+                  : `${1 + Math.max(1, Math.ceil(new TextEncoder().encode(textMessage.trim()).length / chunkSize))} audio packets`}
               </span>
             </div>
           </div>
@@ -332,6 +349,22 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
 
         {/* Protocol & Sound Config */}
         <div className="mt-5 pt-4 border-t border-slate-800 space-y-4">
+          {/* Ultrasound Status Banner */}
+          <div className="p-3 rounded-xl bg-purple-950/40 border border-purple-500/50 flex items-center justify-between text-xs shadow-sm">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-7 h-7 rounded-lg bg-purple-900/80 border border-purple-700 flex items-center justify-center text-purple-300 shrink-0">
+                <Zap className="w-4 h-4 text-purple-400" />
+              </div>
+              <div>
+                <span className="font-bold text-purple-200">Ultra-Sonic Transmission (15.0 – 19.5 kHz)</span>
+                <p className="text-[11px] text-purple-300/80">Inaudible / near-silent high frequencies. Zero loud chirps, ultra-fast data transfer.</p>
+              </div>
+            </div>
+            <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-purple-900/80 text-purple-200 font-mono text-[10px] border border-purple-600/70 font-semibold uppercase">
+              Silent & Fast
+            </span>
+          </div>
+
           <div>
             <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between mb-2">
               <span className="flex items-center space-x-1.5">
@@ -362,11 +395,15 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-medium">{proto.name}</span>
-                      {proto.recommended && (
-                        <span className="text-[9px] px-1 rounded bg-cyan-900/60 text-cyan-300 border border-cyan-700">
-                          BEST
+                      {proto.recommended ? (
+                        <span className="text-[9px] px-1 rounded bg-purple-900/80 text-purple-200 border border-purple-600 font-semibold">
+                          ⚡ FASTEST
                         </span>
-                      )}
+                      ) : isUltrasound ? (
+                        <span className="text-[9px] px-1 rounded bg-slate-800 text-purple-300 border border-purple-800/60">
+                          🦇 SILENT
+                        </span>
+                      ) : null}
                     </div>
                     <p className="text-[10px] text-slate-500 font-mono">{proto.frequency}</p>
                   </button>
@@ -387,7 +424,7 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
 
             {showAdvanced && (
               <div className="mt-3 p-3.5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {/* Volume Slider */}
                   <div>
                     <div className="flex justify-between text-xs text-slate-300 mb-1">
@@ -416,11 +453,29 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
                     </div>
                     <input
                       type="range"
-                      min="150"
-                      max="800"
-                      step="50"
+                      min="50"
+                      max="500"
+                      step="25"
                       value={interPacketDelayMs}
                       onChange={(e) => setInterPacketDelayMs(Number(e.target.value))}
+                      disabled={isBroadcasting}
+                      className="w-full accent-cyan-400"
+                    />
+                  </div>
+
+                  {/* Chunk Size Slider */}
+                  <div>
+                    <div className="flex justify-between text-xs text-slate-300 mb-1">
+                      <span>Chunk Size</span>
+                      <span className="font-mono">{chunkSize} bytes</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="32"
+                      max="84"
+                      step="4"
+                      value={chunkSize}
+                      onChange={(e) => setChunkSize(Number(e.target.value))}
                       disabled={isBroadcasting}
                       className="w-full accent-cyan-400"
                     />
@@ -501,8 +556,21 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
           </div>
         )}
 
+        {/* Estimated Transfer Info */}
+        {!isBroadcasting && (
+          <div className="mt-4 flex items-center justify-between text-xs text-slate-400 px-1">
+            <span className="flex items-center space-x-1.5 text-purple-300">
+              <Zap className="w-3.5 h-3.5 text-purple-400" />
+              <span>Est. Transfer: ~{estimatedSeconds}s</span>
+            </span>
+            <span className="font-mono text-slate-400">
+              {estimatedTotalPackets} packet{estimatedTotalPackets > 1 ? 's' : ''} • {currentProtocol?.name || 'Ultrasound Fastest'}
+            </span>
+          </div>
+        )}
+
         {/* Primary Action Buttons */}
-        <div className="mt-5 flex items-center gap-3">
+        <div className="mt-3 flex items-center gap-3">
           {!isBroadcasting && !isPaused ? (
             <button
               onClick={handleStartTransmit}

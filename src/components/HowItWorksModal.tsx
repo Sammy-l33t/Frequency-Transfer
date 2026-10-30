@@ -118,7 +118,8 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
             <li>Keep devices within 0.5 – 3 meters of each other.</li>
             <li>Set speaker volume to 60% – 85% for best signal-to-noise ratio.</li>
             <li>Keep the Repeat Loop enabled so any missed packet is caught automatically.</li>
-            <li>Audible Fast is recommended for speed; Audible Normal is best in noisy rooms.</li>
+            <li>Ultrasound Fastest is recommended for high speed and silent, less noisy transfers.</li>
+            <li>Audible modes provide maximum range across loud noisy rooms.</li>
           </ul>
         </div>
 

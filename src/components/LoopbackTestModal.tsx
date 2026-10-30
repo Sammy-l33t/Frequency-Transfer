@@ -36,10 +36,10 @@ export const LoopbackTestModal: React.FC<LoopbackTestModalProps> = ({
       params.operatingMode |= GGWAVE_OPERATING_MODE_USE_DSS;
       const instance = init(params);
 
-      const testPayload = 'SonicDrop Acoustic Link Verified!';
-      setTestOutput(`Encoding payload: "${testPayload}"...`);
+      const testPayload = 'SonicDrop Ultra-Sonic Link Verified!';
+      setTestOutput(`Encoding payload using Ultra-Sonic Fastest (15–19.5 kHz): "${testPayload}"...`);
 
-      const waveform = encode(instance, testPayload, ProtocolId.GGWAVE_PROTOCOL_AUDIBLE_FAST, 50);
+      const waveform = encode(instance, testPayload, ProtocolId.GGWAVE_PROTOCOL_ULTRASOUND_FASTEST, 50);
       if (!waveform) {
         throw new Error('Encoding failed: null waveform returned.');
       }
