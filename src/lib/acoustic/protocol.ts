@@ -23,11 +23,11 @@ export const PROTOCOLS: ProtocolOption[] = [
   {
     id: 'ULTRASOUND_FASTEST',
     numericId: 5,
-    name: 'Ultrasound Fastest',
+    name: '⚡ Supersonic (Ultrasound Fastest)',
     category: 'ultrasound',
     frequency: '15.0 – 19.5 kHz',
-    speed: '~1.2 sec/packet',
-    description: 'Ultra-fast & near-silent. Inaudible frequencies with minimal noise.',
+    speed: '~1.1 sec/packet',
+    description: 'Supersonic ultra-fast & near-silent acoustic transfer. High-speed inaudible modulation.',
     recommended: true,
   },
   {

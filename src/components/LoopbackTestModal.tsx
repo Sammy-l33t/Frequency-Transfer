@@ -131,6 +131,11 @@ export const LoopbackTestModal: React.FC<LoopbackTestModalProps> = ({
             <span>{testStatus === 'running' ? 'Testing...' : 'Run Diagnostics'}</span>
           </button>
         </div>
+
+        <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-500">
+          <span>devolped by samanway.</span>
+          <span className="font-mono text-cyan-400">⚡ Supersonic Audio DSP</span>
+        </div>
       </div>
     </div>
   );

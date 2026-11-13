@@ -27,14 +27,14 @@
 ## ✨ Key Features
 
 - **Multi-Frequency Acoustic Modulation**:
-  - ⚡ **Ultrasound Fastest** (~15.0 – 19.5 kHz, *Default*): Ultra-fast and near-silent. Inaudible frequencies with minimal audible noise.
+  - ⚡ **Supersonic (Ultrasound Fastest)** (~15.0 – 19.5 kHz, *Default*): Supersonic ultra-fast and near-silent acoustic transfer. Inaudible frequencies with minimal audible noise.
   - 🦇 **Ultrasound Fast / Normal** (~15.0 – 19.5 kHz): Inaudible acoustic transfer with enhanced redundancy.
   - 🔊 **Audible Fast / Fastest / Normal** (~1.9 – 6.4 kHz): Maximum acoustic range across noisy rooms.
   - 📻 **Dual-Tone (DT)** (~1.1 – 2.6 kHz): Vintage acoustic modem synthesizer style.
 - **Ultra-Fast Single-Burst Text**:
-  - Text messages up to 110 characters transmit in a single ~1.2s burst packet directly into the receiver without chunk overhead.
+  - Text messages up to 110 characters transmit in a single ~1.1s burst packet directly into the receiver without chunk overhead.
 - **Optimized High-Throughput Chunking**:
-  - 84-byte binary chunks with 100ms low-latency inter-packet delay for rapid file transmission.
+  - 84-byte binary chunks with 50ms supersonic low-latency inter-packet delay for rapid file transmission.
 - **Air-Gap Security**:
   - Simplex acoustic communication: Device A and Device B never need to be on the same network or share IP addresses.
 - **Visual Real-Time Feedback**:

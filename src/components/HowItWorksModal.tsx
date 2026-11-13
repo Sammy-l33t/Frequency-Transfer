@@ -61,7 +61,7 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
               </div>
               <h4 className="text-xs font-bold text-slate-200">2. Air-Gap Acoustic Wave</h4>
               <p className="text-[11px] text-slate-400 mt-1">
-                Sound travels through ambient air at 343 m/s (audible or ultrasound).
+                Sound travels through ambient air with supersonic acoustic bursts (ultrasound or audible).
               </p>
             </div>
 
@@ -118,13 +118,16 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({
             <li>Keep devices within 0.5 – 3 meters of each other.</li>
             <li>Set speaker volume to 60% – 85% for best signal-to-noise ratio.</li>
             <li>Keep the Repeat Loop enabled so any missed packet is caught automatically.</li>
-            <li>Ultrasound Fastest is recommended for high speed and silent, less noisy transfers.</li>
+            <li>Supersonic mode (Ultrasound Fastest) is recommended for highest throughput and silent, ultra-fast transfers.</li>
             <li>Audible modes provide maximum range across loud noisy rooms.</li>
           </ul>
         </div>
 
         {/* Footer */}
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-800/80 pt-4">
+          <span className="text-xs text-slate-500 font-mono">
+            devolped by samanway.
+          </span>
           <button
             onClick={onClose}
             className="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold shadow-lg shadow-cyan-600/30 transition-all"

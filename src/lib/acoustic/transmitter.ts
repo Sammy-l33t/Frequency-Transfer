@@ -35,9 +35,9 @@ export class AcousticTransmitter {
   private sampleRate: number = 48000;
   private packets: AcousticPacket[] = [];
   private options: TransmitterOptions = {
-    protocolId: 5, // ULTRASOUND_FASTEST (near-silent, ultra-fast 15.0 - 19.5 kHz)
-    volume: 65,
-    interPacketDelayMs: 100,
+    protocolId: 5, // ULTRASOUND_FASTEST (Supersonic, near-silent, ultra-fast 15.0 - 19.5 kHz)
+    volume: 75,
+    interPacketDelayMs: 50, // Supersonic low-latency 50ms pause between chunks
     loopTransmission: false,
   };
 

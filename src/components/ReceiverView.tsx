@@ -212,7 +212,7 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({ receiver }) => {
             <div className="flex items-center justify-between">
               <div className="truncate pr-2">
                 <p className="text-xs font-bold text-emerald-200 truncate">
-                  Receiving: {activeTransfer.name}
+                  Receiving: {activeTransfer.name} • ⚡ Supersonic
                 </p>
                 <p className="text-[11px] text-emerald-400/80">
                   {completedChunksCount} of {activeTransfer.totalChunks} chunks captured (
@@ -278,7 +278,7 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({ receiver }) => {
                   <div className="flex items-center space-x-2">
                     <p className="text-sm font-bold text-slate-100">{latestFile.name}</p>
                     <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-700 text-emerald-300">
-                      COMPLETE
+                      ⚡ SUPERSONIC COMPLETE
                     </span>
                   </div>
                   <p className="text-xs text-slate-400">
@@ -326,6 +326,17 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({ receiver }) => {
                 </button>
               </div>
             )}
+
+            {/* Completion footer on the last page of transfer */}
+            <div className="mt-3 pt-2.5 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-[11px] text-slate-500 gap-1">
+              <span className="flex items-center space-x-1">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Transmitted over Supersonic Sound Waves</span>
+              </span>
+              <span className="text-slate-400 font-medium">
+                devolped by samanway.
+              </span>
+            </div>
           </div>
         )}
 

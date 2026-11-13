@@ -44,10 +44,10 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
 
   const [activeTab, setActiveTab] = useState<'file' | 'text' | 'preset'>('file');
   const [textMessage, setTextMessage] = useState<string>('Hello from SonicDrop! Air-gapped file transfer via sound waves.');
-  const [selectedProtocolId, setSelectedProtocolId] = useState<number>(5); // ULTRASOUND_FASTEST (near-silent & fast)
+  const [selectedProtocolId, setSelectedProtocolId] = useState<number>(5); // ULTRASOUND_FASTEST (Supersonic, near-silent & ultra-fast)
   const [chunkSize, setChunkSize] = useState<number>(84);
   const [volume, setVolume] = useState<number>(75);
-  const [interPacketDelayMs, setInterPacketDelayMs] = useState<number>(100);
+  const [interPacketDelayMs, setInterPacketDelayMs] = useState<number>(50); // Supersonic low-latency delay
   const [loopTransmission, setLoopTransmission] = useState<boolean>(true);
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
@@ -356,12 +356,12 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
                 <Zap className="w-4 h-4 text-purple-400" />
               </div>
               <div>
-                <span className="font-bold text-purple-200">Ultra-Sonic Transmission (15.0 – 19.5 kHz)</span>
-                <p className="text-[11px] text-purple-300/80">Inaudible / near-silent high frequencies. Zero loud chirps, ultra-fast data transfer.</p>
+                <span className="font-bold text-purple-200">⚡ Supersonic Acoustic Transmission (15.0 – 19.5 kHz)</span>
+                <p className="text-[11px] text-purple-300/80">Inaudible supersonic sound frequencies. Zero loud chirps, ultra-fast low-latency data transfer.</p>
               </div>
             </div>
             <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-purple-900/80 text-purple-200 font-mono text-[10px] border border-purple-600/70 font-semibold uppercase">
-              Silent & Fast
+              ⚡ SUPERSONIC
             </span>
           </div>
 
@@ -397,7 +397,7 @@ export const TransmitterView: React.FC<TransmitterViewProps> = ({
                       <span className="text-xs font-medium">{proto.name}</span>
                       {proto.recommended ? (
                         <span className="text-[9px] px-1 rounded bg-purple-900/80 text-purple-200 border border-purple-600 font-semibold">
-                          ⚡ FASTEST
+                          ⚡ SUPERSONIC
                         </span>
                       ) : isUltrasound ? (
                         <span className="text-[9px] px-1 rounded bg-slate-800 text-purple-300 border border-purple-800/60">

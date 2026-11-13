@@ -30,11 +30,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 SonicDrop
               </h1>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/70 border border-cyan-800/80 text-cyan-300 font-semibold tracking-wide">
-                DATA OVER SOUND
+                ⚡ SUPERSONIC SOUND
               </span>
             </div>
             <p className="text-[11px] text-slate-400 hidden sm:block">
-              Transfer files & data across devices using sound waves
+              Transfer files & data across devices using supersonic sound waves
             </p>
           </div>
         </div>

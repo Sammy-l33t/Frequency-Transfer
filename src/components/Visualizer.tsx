@@ -228,8 +228,8 @@ export const Visualizer: React.FC<VisualizerProps> = ({
               <Zap className="w-3 h-3 text-cyan-400" />
               <span>{detectedFrequency} Hz</span>
               {isUltrasound && (
-                <span className="text-[9px] px-1 py-0.2 rounded bg-purple-900/80 text-purple-200 border border-purple-700">
-                  🦇 ULTRASOUND
+                <span className="text-[9px] px-1 py-0.2 rounded bg-purple-900/80 text-purple-200 border border-purple-700 font-semibold">
+                  ⚡ SUPERSONIC
                 </span>
               )}
               {isAudible && (
